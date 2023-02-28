@@ -19,9 +19,13 @@ let Tmpl = class {
         return this.strings
             .map((str, indx) => {
                 let f = this.functions[indx]
+                let t = f ? (n===0 ? f.call(): f.call(context)) : ''
+                if (t && t instanceof Tmpl) {
+                    t = context ? t.build(context) : t.build()
+                }
                 return [
                     str,
-                    f ? (n===0 ? f.call(): f.call(context)) : ''
+                    t,
                 ]
             })
             .flat()

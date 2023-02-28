@@ -19,3 +19,14 @@ Deno.test('template caches output', () => {
     //
     assert(t.build({a:"world"}) === 'hello world2')
 })
+
+
+
+Deno.test('chaining templates', () => {
+    var n = 0
+    let t1 = tmpl`hello ${(a) => a + (++n)}`
+    let t2 = tmpl`hi ${t1}`
+
+    assert(t2.build({a:"world"}) === 'hi hello world1')
+    assert(t2.build() === 'hi hello world1')
+})
